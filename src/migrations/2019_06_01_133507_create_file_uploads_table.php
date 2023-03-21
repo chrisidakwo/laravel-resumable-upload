@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFileuploadTable extends Migration
+return new class extends Migration
 {
-    /**
+    /**s
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('fileuploads', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('file_uploads', function (Blueprint $table) {
+            $table->bigIncrements('id')->primary();
             $table->string('token',64)->unique();
             $table->string('handler');
             $table->string('name');
@@ -37,4 +37,4 @@ class CreateFileuploadTable extends Migration
     {
         Schema::dropIfExists('fileuploads');
     }
-}
+};
