@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('file_uploads', function (Blueprint $table) {
+        Schema::create(config('resumable-upload.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('token',64)->unique();
             $table->string('handler');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_uploads');
+        Schema::dropIfExists(config('resumable-upload.table_name'));
     }
 };
