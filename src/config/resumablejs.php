@@ -53,7 +53,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Specify a list of handlers. Handlers must extend the UploadHandler
-    | {@see le0daniel\LaravelResumableJs\Contracts\UploadHandler}
+    | {@see ChrisIdakwo\ResumableUpload\Contracts\UploadHandler}
     |
     */
     'handlers' => [

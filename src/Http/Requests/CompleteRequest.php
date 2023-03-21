@@ -1,6 +1,6 @@
 <?php
 
-namespace le0daniel\LaravelResumableJs\Http\Requests;
+namespace ChrisIdakwo\ResumableUpload\Http\Requests;
 
 final class CompleteRequest extends JsonRequest
 {

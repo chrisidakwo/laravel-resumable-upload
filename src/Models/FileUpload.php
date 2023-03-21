@@ -6,14 +6,14 @@
  * Time: 15:39
  */
 
-namespace le0daniel\LaravelResumableJs\Models;
+namespace ChrisIdakwo\ResumableUpload\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
  * Class FileUpload
- * @package le0daniel\LaravelResumableJs\Models
+ * @package ChrisIdakwo\ResumableUpload\Models
  *
  * @property integer $size
  * @property integer $chunks

@@ -6,15 +6,15 @@
  * Time: 17:44
  */
 
-namespace le0daniel\LaravelResumableJs\Jobs;
+namespace ChrisIdakwo\ResumableUpload\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use le0daniel\LaravelResumableJs\Models\FileUpload;
-use le0daniel\LaravelResumableJs\Upload\UploadService;
+use ChrisIdakwo\ResumableUpload\Models\FileUpload;
+use ChrisIdakwo\ResumableUpload\Upload\UploadService;
 
 final class AsyncProcessingJob implements ShouldQueue
 {

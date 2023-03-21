@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le0daniel\LaravelResumableJs\Utility;
+namespace ChrisIdakwo\ResumableUpload\Utility;
 
 final class Resources
 {

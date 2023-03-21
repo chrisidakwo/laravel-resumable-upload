@@ -6,7 +6,7 @@
  * Time: 14:35
  */
 
-namespace le0daniel\LaravelResumableJs\Http\Controllers;
+namespace ChrisIdakwo\ResumableUpload\Http\Controllers;
 
 use Exception;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -14,15 +14,15 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use le0daniel\LaravelResumableJs\Contracts\UploadHandler;
-use le0daniel\LaravelResumableJs\Http\Requests\CompleteRequest;
-use le0daniel\LaravelResumableJs\Http\Requests\InitRequest;
-use le0daniel\LaravelResumableJs\Http\Requests\UploadRequest;
-use le0daniel\LaravelResumableJs\Http\Responses\ApiResponse;
-use le0daniel\LaravelResumableJs\Models\FileUpload;
-use le0daniel\LaravelResumableJs\Upload\InvalidChunksException;
-use le0daniel\LaravelResumableJs\Upload\UploadProcessingException;
-use le0daniel\LaravelResumableJs\Upload\UploadService;
+use ChrisIdakwo\ResumableUpload\Contracts\UploadHandler;
+use ChrisIdakwo\ResumableUpload\Http\Requests\CompleteRequest;
+use ChrisIdakwo\ResumableUpload\Http\Requests\InitRequest;
+use ChrisIdakwo\ResumableUpload\Http\Requests\UploadRequest;
+use ChrisIdakwo\ResumableUpload\Http\Responses\ApiResponse;
+use ChrisIdakwo\ResumableUpload\Models\FileUpload;
+use ChrisIdakwo\ResumableUpload\Upload\InvalidChunksException;
+use ChrisIdakwo\ResumableUpload\Upload\UploadProcessingException;
+use ChrisIdakwo\ResumableUpload\Upload\UploadService;
 
 final class UploadController extends BaseController
 {

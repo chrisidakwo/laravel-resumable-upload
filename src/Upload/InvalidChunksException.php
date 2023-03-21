@@ -1,6 +1,6 @@
 <?php
 
-namespace le0daniel\LaravelResumableJs\Upload;
+namespace ChrisIdakwo\ResumableUpload\Upload;
 
 use Exception;
 

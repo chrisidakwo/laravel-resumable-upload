@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use le0daniel\LaravelResumableJs\Http\Controllers\UploadController;
+use ChrisIdakwo\ResumableUpload\Http\Controllers\UploadController;
 
 Route::
 prefix('upload')

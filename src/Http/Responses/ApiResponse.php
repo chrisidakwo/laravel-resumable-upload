@@ -1,11 +1,11 @@
 <?php
 
-namespace le0daniel\LaravelResumableJs\Http\Responses;
+namespace ChrisIdakwo\ResumableUpload\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use le0daniel\LaravelResumableJs\Utility\Arrays;
+use ChrisIdakwo\ResumableUpload\Utility\Arrays;
 
 final class ApiResponse implements Responsable
 {

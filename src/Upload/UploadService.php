@@ -6,20 +6,20 @@
  * Time: 16:23
  */
 
-namespace le0daniel\LaravelResumableJs\Upload;
+namespace ChrisIdakwo\ResumableUpload\Upload;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use le0daniel\LaravelResumableJs\Contracts\UploadHandler;
-use le0daniel\LaravelResumableJs\Http\Requests\InitRequest;
-use le0daniel\LaravelResumableJs\Http\Responses\ApiResponse;
-use le0daniel\LaravelResumableJs\Jobs\AsyncProcessingJob;
-use le0daniel\LaravelResumableJs\Models\FileUpload;
-use le0daniel\LaravelResumableJs\Utility\Files;
-use le0daniel\LaravelResumableJs\Utility\Resources;
-use le0daniel\LaravelResumableJs\Utility\Tokens;
+use ChrisIdakwo\ResumableUpload\Contracts\UploadHandler;
+use ChrisIdakwo\ResumableUpload\Http\Requests\InitRequest;
+use ChrisIdakwo\ResumableUpload\Http\Responses\ApiResponse;
+use ChrisIdakwo\ResumableUpload\Jobs\AsyncProcessingJob;
+use ChrisIdakwo\ResumableUpload\Models\FileUpload;
+use ChrisIdakwo\ResumableUpload\Utility\Files;
+use ChrisIdakwo\ResumableUpload\Utility\Resources;
+use ChrisIdakwo\ResumableUpload\Utility\Tokens;
 use RuntimeException;
 use SplFileInfo;
 

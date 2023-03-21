@@ -6,11 +6,11 @@
  * Time: 14:43
  */
 
-namespace le0daniel\LaravelResumableJs\Contracts;
+namespace ChrisIdakwo\ResumableUpload\Contracts;
 
 use Illuminate\Http\Request;
-use le0daniel\LaravelResumableJs\Models\FileUpload;
-use le0daniel\LaravelResumableJs\Upload\UploadProcessingException;
+use ChrisIdakwo\ResumableUpload\Models\FileUpload;
+use ChrisIdakwo\ResumableUpload\Upload\UploadProcessingException;
 
 abstract class UploadHandler
 {

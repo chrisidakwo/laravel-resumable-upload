@@ -6,7 +6,7 @@ This laravel Package implements a chunk uploading feature using upload handlers.
 
 The installation is done via composer
 
-```composer require le0daniel/laravel-resumablejs```
+```composer require chrisidakwo/laravel-resumable-upload```
 
 As the package comes with some migrations, run them.
 
@@ -18,7 +18,7 @@ The package comes with a config, so you should publish the package using
 
 ### Installation
 In the `resumablejs.php` config file, you need to declare Handlers to use this package.
-A handler always needs to extend the `le0daniel\LaravelResumableJs\Contracts\UploadHandler` Contract.
+A handler always needs to extend the `ChrisIdakwo\ResumableUpload\Contracts\UploadHandler` Contract.
 
 The methods to implement are pretty straight forward.
 

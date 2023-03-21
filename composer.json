@@ -1,27 +1,31 @@
 {
-  "name": "le0daniel/laravel-resumablejs",
-  "description": "Very flexible integration of chunk and async uploading",
+  "name": "ChrisIdakwo/laravel-resumablejs",
+  "description": "Easy and flexible integration of resumable (chunk and async) uploading of files for any JS file uploader such as Resumable.js",
   "license": "MIT",
   "authors": [
     {
       "name": "Leo Daniel Studer",
       "email": "leo.studer@nitrosoft.ch"
+    },
+    {
+      "name": "Chris Idakwo",
+      "email": "chris.idakwo@gmail.com"
     }
   ],
   "autoload": {
     "psr-4": {
-      "le0daniel\\LaravelResumableJs\\": "src/"
+      "ChrisIdakwo\\ResumableUpload\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "le0daniel\\Tests\\LaravelResumableJs\\": "tests/"
+      "ChrisIdakwo\\Tests\\ResumableUpload\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "le0daniel\\LaravelResumableJs\\Providers\\ResumableJsProvider"
+        "ChrisIdakwo\\ResumableUpload\\Providers\\ResumableJsProvider"
       ]
     }
   },
