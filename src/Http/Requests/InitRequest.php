@@ -4,7 +4,8 @@ namespace ChrisIdakwo\ResumableUpload\Http\Requests;
 
 final class InitRequest extends JsonRequest
 {
-    public function rules() {
+    public function rules(): array
+    {
         return [
             'handler' => 'required|string',
             'name' => 'required|string',

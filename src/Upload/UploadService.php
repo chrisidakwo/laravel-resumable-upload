@@ -112,7 +112,7 @@ final class UploadService
                 'type' => $attributes['type'],
                 'extension' => Files::getExtension($attributes['name']),
                 'chunks' => $this->getChunkNumber($attributes['size']),
-                'payload' => $this->validatedArray($attributes['payload'] ?? null, $payloadRules),
+                'payload' => $this->validatedArray($attributes['payload'] ?? [], $payloadRules),
             ]
         );
     }

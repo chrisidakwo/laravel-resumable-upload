@@ -21,18 +21,30 @@ use Illuminate\Support\Arr;
  */
 class FileUpload extends Model
 {
-    protected $table = 'fileuploads';
     protected $fillable = ['size', 'chunks', 'name', 'extension', 'type', 'payload'];
+
     protected $casts = [
         'payload' => 'array',
         'is_complete' => 'boolean',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('resumable-upload.table_name');
+
+        parent::__construct($attributes);
+    }
+
+    /**
+     * @param string $key
+     * @param $value
+     */
     public function appendToPayload(string $key, $value): void
     {
         $payload = $this->payload;
+
         Arr::set($payload, $key, $value);
+
         $this->payload = $payload;
     }
-
 }

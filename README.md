@@ -17,10 +17,17 @@ The package comes with a config, so you should publish the package using
 ```artisan vendor:publish```
 
 ### Installation
+
 In the `resumable-upload.php` config file, you need to declare Handlers to use this package.
 A handler always needs to extend the `ChrisIdakwo\ResumableUpload\Contracts\UploadHandler` Contract.
 
 The methods to implement are pretty straight forward.
+
+### Config
+
+- Handler
+- Database Table Name
+- Route
 
 ### Javascript
 
