@@ -8,7 +8,7 @@ Route::prefix(config('resumable-upload.route.prefix'))
     ->group(
         static function () {
             Route::post('init', [UploadController::class, 'init'])->name('init');
-            Route::post('', [UploadController::class, 'upload']);
-            Route::post('complete', [UploadController::class, 'complete']);
+            Route::post('', [UploadController::class, 'upload'])->name('index');
+            Route::post('complete', [UploadController::class, 'complete'])->name('complete');
         }
     );
