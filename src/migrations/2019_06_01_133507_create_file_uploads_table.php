@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('file_uploads', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+            $table->bigIncrements('id');
             $table->string('token',64)->unique();
             $table->string('handler');
             $table->string('name');
