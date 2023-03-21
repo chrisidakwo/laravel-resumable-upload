@@ -17,7 +17,7 @@ final class Files
 
     private static function getTmpDir(): string
     {
-        return rtrim(config('resumablejs.tmp_directory'), '/');
+        return rtrim(config('resumable-upload.tmp_directory'), '/');
     }
 
     public static function computeChunkFileName(string $token, int $chunkNumber): string

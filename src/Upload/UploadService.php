@@ -1,20 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leodanielstuder
- * Date: 01.06.19
- * Time: 16:23
- */
 
 namespace ChrisIdakwo\ResumableUpload\Upload;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use ChrisIdakwo\ResumableUpload\Contracts\UploadHandler;
 use ChrisIdakwo\ResumableUpload\Http\Requests\InitRequest;
-use ChrisIdakwo\ResumableUpload\Http\Responses\ApiResponse;
 use ChrisIdakwo\ResumableUpload\Jobs\AsyncProcessingJob;
 use ChrisIdakwo\ResumableUpload\Models\FileUpload;
 use ChrisIdakwo\ResumableUpload\Utility\Files;
@@ -56,7 +47,7 @@ final class UploadService
     private function shouldProcessAsync(UploadHandler $handler, FileUpload $fileUpload): bool
     {
         return
-            config('resumablejs.async', false)
+            config('resumable-upload.async', false)
             && (
                 $handler->supportsAsyncProcessing() || $fileUpload->size > (100 * 1024 * 1024)
             );
@@ -93,7 +84,7 @@ final class UploadService
     {
         $broadcastingKey = sprintf('upload-%s-%d', Tokens::generateRandom(16), $fileUpload->id);
         dispatch(new AsyncProcessingJob($fileUpload, $broadcastingKey))
-            ->onQueue(config('resumablejs.queue'));
+            ->onQueue(config('resumable-upload.queue'));
         return [
             'async' => true,
             'broadcasting_key' => $broadcastingKey,
@@ -102,7 +93,7 @@ final class UploadService
 
     private function getChunkNumber(int $fileSize): int
     {
-        return ceil($fileSize / config('resumablejs.chunk_size'));
+        return ceil($fileSize / config('resumable-upload.chunk_size'));
     }
 
     private function validatedArray(array $payload, ?array $rules): array

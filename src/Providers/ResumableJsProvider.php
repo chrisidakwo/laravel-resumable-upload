@@ -1,17 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leodanielstuder
- * Date: 01.06.19
- * Time: 14:22
- */
 
 namespace ChrisIdakwo\ResumableUpload\Providers;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use ChrisIdakwo\ResumableUpload\Upload\UploadService;
 
 class ResumableJsProvider extends ServiceProvider
 {
@@ -19,7 +10,7 @@ class ResumableJsProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/resumablejs.php', 'resumablejs'
+            __DIR__ . '/../config/resumable-upload.php', 'resumable-upload'
         );
     }
 
@@ -27,7 +18,7 @@ class ResumableJsProvider extends ServiceProvider
 
         /* Publish the config */
         $this->publishes([
-            __DIR__.'/../config/resumablejs.php' => config_path('resumablejs.php'),
+            __DIR__ . '/../config/resumable-upload.php' => config_path('resumable-upload.php'),
         ]);
 
         /* Register Routes */

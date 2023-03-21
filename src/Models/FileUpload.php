@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leodanielstuder
- * Date: 01.06.19
- * Time: 15:39
- */
 
 namespace ChrisIdakwo\ResumableUpload\Models;
 

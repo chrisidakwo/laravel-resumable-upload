@@ -1,4 +1,4 @@
-# laravel-resumablejs
+# Laravel Resumable Upload
 
 This laravel Package implements a chunk uploading feature using upload handlers. The idea is, that you have one single Upload route and you pass the handler name to init the Upload to it. This handler then handles the authorization, and file processing. The Upload itself is managed by the Upload Controller globally.
 
@@ -17,7 +17,7 @@ The package comes with a config, so you should publish the package using
 ```artisan vendor:publish```
 
 ### Installation
-In the `resumablejs.php` config file, you need to declare Handlers to use this package.
+In the `resumable-upload.php` config file, you need to declare Handlers to use this package.
 A handler always needs to extend the `ChrisIdakwo\ResumableUpload\Contracts\UploadHandler` Contract.
 
 The methods to implement are pretty straight forward.
@@ -29,7 +29,7 @@ Requirements: `axios`,`resumable.js`
 
 It's important to set the forceChunkSize parameter because each chunk is checked to have the exact Chunk size (except if it's the last one).
 If not, the chunk is marked as invalid and refused.
-Also, the chunkSize must be the same as defined in the laravel config (`resumablejs.php`)
+Also, the chunkSize must be the same as defined in the laravel config (`resumable-upload.php`)
 
 ```
 const r = new Resumable({

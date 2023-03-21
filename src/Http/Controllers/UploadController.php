@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leodanielstuder
- * Date: 01.06.19
- * Time: 14:35
- */
 
 namespace ChrisIdakwo\ResumableUpload\Http\Controllers;
 
@@ -29,7 +23,7 @@ final class UploadController extends BaseController
     use ValidatesRequests;
 
     private UploadHandler $handler;
-    private const INIT_REQUEST_NAME = 'resumablejs.init';
+    private const INIT_REQUEST_NAME = 'init';
 
     public function __construct(Request $request)
     {
@@ -42,14 +36,14 @@ final class UploadController extends BaseController
 
     private function verifyHasHandlers(): void
     {
-        if (empty(config('resumablejs.handlers', false))) {
-            throw new \RuntimeException('No upload handlers (resumablejs.handlers) defined in your config.');
+        if (empty(config('resumable-upload.handlers', false))) {
+            throw new \RuntimeException('No upload handlers (resumable-upload.handlers) defined in your config.');
         }
     }
 
     private function isInitCall(Request $request): bool
     {
-        return $request->route()->getName() === self::INIT_REQUEST_NAME;
+        return str_contains($request->route()->getName(), self::INIT_REQUEST_NAME);
     }
 
     private function applyHandlerMiddleware(): void
@@ -61,7 +55,7 @@ final class UploadController extends BaseController
 
     private function setHandler(string $handlerName): void
     {
-        $handlers = config('resumablejs.handlers');
+        $handlers = config('resumable-upload.handlers');
 
         if (!array_key_exists($handlerName, $handlers)) {
             abort(404, 'Handler not found.');

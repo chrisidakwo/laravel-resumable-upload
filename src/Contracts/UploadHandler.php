@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leodanielstuder
- * Date: 01.06.19
- * Time: 14:43
- */
 
 namespace ChrisIdakwo\ResumableUpload\Contracts;
 

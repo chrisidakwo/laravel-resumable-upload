@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use ChrisIdakwo\ResumableUpload\Http\Controllers\UploadController;
 
-Route::prefix(config('resumablejs.route.prefix'))
-    ->as(config('resumablejs.route.as'))
+Route::prefix(config('resumable-upload.route.prefix'))
+    ->as(config('resumable-upload.route.as'))
     ->group(
         static function () {
             Route::post('init', [UploadController::class, 'init'])->name('init');

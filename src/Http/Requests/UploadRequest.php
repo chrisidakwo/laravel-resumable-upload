@@ -13,7 +13,7 @@ final class UploadRequest extends FormRequest
         return [
             'token' => 'required|string|size:64|exists:fileuploads,token',
             $this->chunkNumberKey() => 'required|integer|min:1',
-            'file' => 'required|file|max:' . config('resumablejs.chunk_size'),
+            'file' => 'required|file|max:' . config('resumable-upload.chunk_size'),
         ];
     }
 

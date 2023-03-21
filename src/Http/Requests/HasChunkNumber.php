@@ -6,7 +6,7 @@ trait HasChunkNumber
 {
 
     protected function chunkNumberKey(): string {
-        return config('resumablejs.request_keys.chunk_number', 'resumableChunkNumber');
+        return config('resumable-upload.request_keys.chunk_number', 'resumableChunkNumber');
     }
 
     public function getChunkNumber(): int {

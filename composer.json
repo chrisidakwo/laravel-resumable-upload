@@ -1,5 +1,5 @@
 {
-  "name": "chrisidakwo/laravel-resumablejs",
+  "name": "chrisidakwo/laravel-resumable-upload",
   "description": "Easy and flexible integration of resumable (chunk and async) uploading of files for any JS file uploader such as Resumable.js",
   "license": "MIT",
   "authors": [
