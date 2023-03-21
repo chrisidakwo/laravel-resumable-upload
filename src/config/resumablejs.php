@@ -60,5 +60,16 @@ return [
         //'basic' => YourHandler::class,
     ],
 
-
+    /**
+    |--------------------------------------------------------------------------
+    | Route Prefix and Naming
+    |--------------------------------------------------------------------------
+    |
+    | Prefix the routes and name them as you wish.
+    |
+    */
+    'route' => [
+        'prefix' => 'upload',
+        'as' => 'upload.',
+    ],
 ];
