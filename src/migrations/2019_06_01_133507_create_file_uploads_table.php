@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**s
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('resumable-upload.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -30,10 +28,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('resumable-upload.table_name'));
     }

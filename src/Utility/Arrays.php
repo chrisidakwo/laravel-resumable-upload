@@ -8,7 +8,7 @@ final class Arrays
 
     public static function filterNullValues(array $array): array
     {
-        return array_filter($array, fn($item) => $item !== null);
+        return array_filter($array, static fn($item) => $item !== null);
     }
 
 }

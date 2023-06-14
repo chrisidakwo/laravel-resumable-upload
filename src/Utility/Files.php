@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ChrisIdakwo\ResumableUpload\Utility;
 
+use Exception;
 use Illuminate\Support\Str;
-use RuntimeException;
 
 final class Files
 {
@@ -32,6 +32,9 @@ final class Files
         return file_exists(self::computeChunkFileName($token, $chunkNumber));
     }
 
+    /**
+     * @throws Exception
+     */
     public static function writeChunk(string $pathToContentFile, string $token, int $chunkNumber): string
     {
         $filePath = self::computeChunkFileName($token, $chunkNumber);
@@ -53,7 +56,8 @@ final class Files
         return "{$directory}/{$fileName}.tmp";
     }
 
-    public static function deleteExisting(string ...$files): void {
+    public static function deleteExisting(string ...$files): void
+    {
         foreach ($files as $file){
             if (file_exists($file)) {
                 unlink($file);

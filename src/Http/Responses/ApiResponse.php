@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use ChrisIdakwo\ResumableUpload\Utility\Arrays;
+use Illuminate\Http\JsonResponse;
 
 final class ApiResponse implements Responsable
 {
@@ -19,10 +20,10 @@ final class ApiResponse implements Responsable
     }
 
     /**
-     * @param null|Model|Collection|array $data
+     * @param array|Collection|Model|null $data
      * @return static
      */
-    public static function successful($data = null): self
+    public static function successful(Model|Collection|array|null $data = null): self
     {
         return new self(
             [
@@ -43,7 +44,7 @@ final class ApiResponse implements Responsable
         );
     }
 
-    public function toResponse($request)
+    public function toResponse($request): JsonResponse
     {
         return response()
             ->json(

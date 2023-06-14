@@ -15,14 +15,12 @@ final class AsyncProcessingJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     // Only allow 1 try.
-    public $tries = 1;
-
-    public $fileUpload;
-    protected $broadcastKey;
+    public int $tries = 1;
+    public FileUpload $fileUpload;
+    protected string $broadcastKey;
 
     /**
      * CompleteAndProcessUpload constructor.
-     * @param FileUpload $fileUpload
      */
     public function __construct(FileUpload $fileUpload, string $broadcastKey)
     {
@@ -30,7 +28,7 @@ final class AsyncProcessingJob implements ShouldQueue
         $this->broadcastKey = $broadcastKey;
     }
 
-    public function handle(UploadService $service)
+    public function handle(UploadService $service): void
     {
         $service->processAsync($this->fileUpload, $this->broadcastKey);
     }

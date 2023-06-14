@@ -5,7 +5,6 @@ namespace ChrisIdakwo\ResumableUpload\Utility;
 
 final class Directories
 {
-
     public static function makeRecursive(string $directory): void
     {
         if (file_exists($directory)) {

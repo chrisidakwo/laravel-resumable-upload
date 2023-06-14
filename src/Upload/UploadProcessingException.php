@@ -7,18 +7,19 @@ use Throwable;
 
 final class UploadProcessingException extends Exception
 {
-    private ?string $userMessage = null;
+    private string|null $userMessage = null;
 
-    private function __construct($message = "", Throwable $previous = null)
+    private function __construct($message = "", Throwable|null $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }
 
-    public function getUserMessage(): ?string {
+    public function getUserMessage(): string|null
+    {
         return $this->userMessage;
     }
 
-    public static function with(?string $userShowableMessage, string $internalMessage, Throwable $previous = null): self {
+    public static function with(string|null $userShowableMessage, string $internalMessage, Throwable|null $previous = null): self {
         $instance = new self($internalMessage, $previous);
         $instance->userMessage = $userShowableMessage;
         return $instance;

@@ -3,8 +3,10 @@
 namespace ChrisIdakwo\ResumableUpload\Http\Controllers;
 
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +19,8 @@ use ChrisIdakwo\ResumableUpload\Models\FileUpload;
 use ChrisIdakwo\ResumableUpload\Upload\InvalidChunksException;
 use ChrisIdakwo\ResumableUpload\Upload\UploadProcessingException;
 use ChrisIdakwo\ResumableUpload\Upload\UploadService;
+use RuntimeException;
+use Throwable;
 
 final class UploadController extends BaseController
 {
@@ -37,7 +41,7 @@ final class UploadController extends BaseController
     private function verifyHasHandlers(): void
     {
         if (empty(config('resumable-upload.handlers', false))) {
-            throw new \RuntimeException('No upload handlers (resumable-upload.handlers) defined in your config.');
+            throw new RuntimeException('No upload handlers (resumable-upload.handlers) defined in your config.');
         }
     }
 
@@ -64,24 +68,31 @@ final class UploadController extends BaseController
         $this->handler = App::make($handlers[$handlerName]);
     }
 
-    private function getUncompletedFileUpload(string $token): FileUpload
+    private function getUncompletedFileUpload(string $token): FileUpload|null
     {
-        return FileUpload::where('token', '=', $token)
+        /** @var FileUpload|null $fileUpload */
+        $fileUpload = FileUpload::query()->where('token', '=', $token)
             ->where('is_complete', '=', 0)
             ->firstOrFail();
+
+        return $fileUpload;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function init(InitRequest $request, UploadService $manager): ApiResponse
     {
         try {
             return ApiResponse::successful(['token' => $manager->init($this->handler, $request)->token]);
         } catch (Exception $exception) {
-            Log::debug('Validation failed.', ['exception' => $exception]);
+            Log::debug('Validation failed.', compact('exception'));
+
             return ApiResponse::error('Input validation failed', 422);
         }
     }
 
-    public function upload(UploadRequest $request, UploadService $manager)
+    public function upload(UploadRequest $request, UploadService $manager): Response
     {
         $attributes = $request->validated();
 
@@ -94,6 +105,10 @@ final class UploadController extends BaseController
         return response('', 200);
     }
 
+    /**
+     * @throws BindingResolutionException
+     * @throws Throwable
+     */
     public function complete(CompleteRequest $request, UploadService $manager): ApiResponse
     {
         $attributes = $request->validated();
@@ -102,7 +117,7 @@ final class UploadController extends BaseController
             return ApiResponse::successful(
                 $manager->completeUpload($this->getUncompletedFileUpload($attributes['token']))
             );
-        } catch (InvalidChunksException $exception) {
+        } catch (InvalidChunksException) {
             return ApiResponse::error('Could not locate the chunks. Did you upload all chunk files?', 422);
         } catch (UploadProcessingException $exception) {
             return ApiResponse::error($exception->getUserMessage() ?? 'Internal Error', 422);

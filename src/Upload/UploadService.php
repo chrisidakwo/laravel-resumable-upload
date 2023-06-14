@@ -2,6 +2,8 @@
 
 namespace ChrisIdakwo\ResumableUpload\Upload;
 
+use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 use ChrisIdakwo\ResumableUpload\Contracts\UploadHandler;
@@ -11,11 +13,16 @@ use ChrisIdakwo\ResumableUpload\Models\FileUpload;
 use ChrisIdakwo\ResumableUpload\Utility\Files;
 use ChrisIdakwo\ResumableUpload\Utility\Resources;
 use ChrisIdakwo\ResumableUpload\Utility\Tokens;
+use Illuminate\Validation\ValidationException;
 use RuntimeException;
 use SplFileInfo;
+use Throwable;
 
 final class UploadService
 {
+    /**
+     * @throws InvalidChunksException
+     */
     private function verifyChunks(FileUpload $fileUpload): void
     {
         $fileSize = 0;
@@ -32,6 +39,9 @@ final class UploadService
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getChunks(FileUpload $fileUpload): array
     {
         $chunks = [];
@@ -53,6 +63,9 @@ final class UploadService
             );
     }
 
+    /**
+     * @throws Exception
+     */
     private function combineChunks(FileUpload $fileUpload): string
     {
         $combinedFile = Files::tmp();
@@ -64,6 +77,11 @@ final class UploadService
         return $combinedFile;
     }
 
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws UploadProcessingException|Exception
+     */
     private function process(UploadHandler $handler, FileUpload $fileUpload): array
     {
         $uploadedFile = new SplFileInfo($this->combineChunks($fileUpload));
@@ -71,7 +89,7 @@ final class UploadService
         try {
             $handler->validateUploadedFile($uploadedFile, $fileUpload);
             $response = $handler->handle($uploadedFile, $fileUpload);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Files::deleteExisting($uploadedFile);
             throw $exception;
         }
@@ -80,9 +98,12 @@ final class UploadService
         return $response ?? [];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function dispatchAsync(FileUpload $fileUpload): array
     {
-        $broadcastingKey = sprintf('upload-%s-%d', Tokens::generateRandom(16), $fileUpload->id);
+        $broadcastingKey = sprintf('upload-%s-%d', Tokens::generateRandom(16), $fileUpload->getKey());
         dispatch(new AsyncProcessingJob($fileUpload, $broadcastingKey))
             ->onQueue(config('resumable-upload.queue'));
         return [
@@ -96,14 +117,26 @@ final class UploadService
         return ceil($fileSize / config('resumable-upload.chunk_size'));
     }
 
-    private function validatedArray(array $payload, ?array $rules): array
+    /**
+     * @param array<string, mixed> $payload
+     * @param array<string, mixed>|null $rules
+     *
+     * @throws ValidationException
+     */
+    private function validatedArray(array $payload, array|null $rules): array
     {
         return $rules
             ? Validator::make($payload, $rules)->validate()
             : [];
     }
 
-    private function createFileUpload(array $attributes, ?array $payloadRules): FileUpload
+    /**
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed>|null $payloadRules
+     *
+     * @throws ValidationException
+     */
+    private function createFileUpload(array $attributes, array|null $payloadRules): FileUpload
     {
         return new FileUpload(
             [
@@ -117,6 +150,9 @@ final class UploadService
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     public function init(UploadHandler $handler, InitRequest $request): FileUpload
     {
         $fileUpload = $this->createFileUpload($request->validated(), $handler->payloadRules());
@@ -128,17 +164,25 @@ final class UploadService
         $fileUpload->token = Tokens::generateRandom();
         $fileUpload->handler = get_class($handler);
         $fileUpload->saveOrFail();
+
         return $fileUpload;
     }
 
-    public function uploadChunk(FileUpload $fileUpload, int $chunkNumber, UploadedFile $file)
+    /**
+     * @throws RuntimeException
+     */
+    public function uploadChunk(FileUpload $fileUpload, int $chunkNumber, UploadedFile $file): void
     {
         if (!$file->isValid()) {
             throw new RuntimeException('Invalid file');
         }
+
         Files::writeChunk($file->getRealPath(), $fileUpload->token, $chunkNumber);
     }
 
+    /**
+     * @throws InvalidChunksException|Throwable|UploadProcessingException|BindingResolutionException
+     */
     public function completeUpload(FileUpload $fileUpload): array
     {
         // First we mark the file as completed as we expect all chunks to be present now.
@@ -150,11 +194,15 @@ final class UploadService
 
         /** @var UploadHandler $handler */
         $handler = app()->make($fileUpload->handler);
+
         return $this->shouldProcessAsync($handler, $fileUpload)
             ? $this->dispatchAsync($fileUpload)
             : $this->process($handler, $fileUpload);
     }
 
+    /**
+     * @throws Exception
+     */
     public function processAsync(FileUpload $fileUpload, string $broadcastKey): void
     {
         /** @var UploadHandler $handler */
@@ -163,7 +211,7 @@ final class UploadService
         try {
             $response = $this->process($handler, $fileUpload);
             $handler->broadcastProcessedAsync($fileUpload, $broadcastKey, $response);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $handler->broadcastFailedAsyncProcessing($fileUpload, $broadcastKey, $exception);
             throw $exception;
         }

@@ -7,7 +7,7 @@ return [
     | Async and Queue
     |--------------------------------------------------------------------------
     |
-    | As large files require longer to process, its a good idea to process them
+    | As large files require longer to process, it's a good idea to process them
     | in the background
     |
     | If set to true, you have the option to force process a file in the
